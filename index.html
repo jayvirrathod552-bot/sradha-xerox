@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRADHA XEROX</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Boxicons for modern icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Cropper.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body class="dark-theme">
+    <div class="background-mesh"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <header class="app-header">
+        <div class="logo">
+            <span class="logo-icon"><i class='bx bx-fingerprint'></i></span>
+            <span class="logo-text">SRADHA XEROX</span>
+        </div>
+        <div class="header-actions">
+            <button class="theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+                <i class='bx bx-sun'></i>
+            </button>
+            <button class="btn btn-primary premium-badge">
+                <i class='bx bx-crown'></i> PRO
+            </button>
+        </div>
+    </header>
+
+    <main class="app-container">
+        <!-- Loader Modal Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="glass-loader">
+                <div class="scanner-container">
+                    <img src="" id="loaderThumb" alt="" class="loader-thumb">
+                    <div class="scanner-line"></div>
+                </div>
+                <div class="loader-text">
+                    <p>AI Engine Processing...</p>
+                    <span class="sub-text" id="loaderSubText">Analyzing facial landmarks</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPLOAD SECTION -->
+        <section class="upload-section active glass-panel" id="uploadSection">
+            <div class="upload-header">
+                <h1>Generate Perfect Passport Photos with <span class="gradient-text">AI</span>.</h1>
+                <p>Upload any picture and let our advanced neural engine crop, clean, and format it accurately to
+                    compliance standards.</p>
+            </div>
+
+            <div class="drag-drop-zone" id="dropZone">
+                <input type="file" id="fileInput" accept="image/*" hidden>
+                <div class="upload-content">
+                    <div class="upload-icon-container">
+                        <i class='bx bx-cloud-upload upload-icon'></i>
+                        <div class="icon-glow"></div>
+                    </div>
+                    <h2>Drag & Drop your photo here</h2>
+                    <p class="upload-hint">or <span class="highlight">browse</span> from your files. JPEG, PNG up to
+                        10MB.</p>
+                </div>
+                <div class="glow-border"></div>
+            </div>
+
+            <div class="features-list">
+                <div class="feature-item"><i class='bx bx-check-circle'></i> Auto Face Crop</div>
+                <div class="feature-item"><i class='bx bx-check-circle'></i> Magic Background Removal</div>
+                <div class="feature-item"><i class='bx bx-check-circle'></i> 300 DPI Export</div>
+            </div>
+        </section>
+
+        <!-- EDITOR SECTION -->
+        <section class="editor-section hidden" id="editorSection">
+            <!-- Canvas / Preview Area -->
+            <div class="preview-panel glass-panel">
+                <div class="nav-controls">
+                    <button class="btn btn-icon" id="backBtn" title="Back to Upload"><i
+                            class='bx bx-left-arrow-alt'></i></button>
+                    <h3 class="panel-title">Real-time Preview</h3>
+                    <div class="resolution-badge">300 DPI <i class='bx bx-check'></i></div>
+                </div>
+
+                <div class="canvas-container" id="canvasContainer">
+                    <div class="canvas-wrapper" id="canvasWrapper">
+                        <canvas id="previewCanvas"></canvas>
+                        <!-- Grid Overlay -->
+                        <div class="grid-overlay hidden" id="gridOverlay">
+                            <div class="guide horizontal top"></div>
+                            <div class="guide horizontal bottom"></div>
+                            <div class="guide vertical left"></div>
+                            <div class="guide vertical right"></div>
+                            <div class="face-oval"></div>
+                        </div>
+                    </div>
+                    <!-- Warning Toast -->
+                    <div class="toast-message" id="toastMsg"></div>
+                </div>
+
+                <div class="preview-tools">
+                    <button class="tool-btn" id="toggleGridBtn" title="Toggle Alignment Guides"><i
+                            class='bx bx-grid'></i></button>
+                    <button class="tool-btn" id="compareBtn" title="Hold to Compare Original"><i
+                            class='bx bx-move-horizontal'></i></button>
+                </div>
+            </div>
+
+            <!-- Editor Controls Sidebar -->
+            <div class="controls-panel glass-panel">
+                <div class="controls-header">
+                    <h3>AI Adjustments</h3>
+                    <div class="header-tools">
+                        <button class="btn-text" id="autoFixBtn" title="Auto Enhance"><i class='bx bxs-magic-wand'></i>
+                            Auto</button>
+                        <button class="btn-text" id="resetBtn" title="Reset All"><i class='bx bx-refresh'></i>
+                            Reset</button>
+                    </div>
+                </div>
+
+                <div class="control-group" id="apiGroup">
+                    <label><span>Remove.bg API Key</span> <a href="https://www.remove.bg/api" target="_blank"
+                            class="link-small">Get Key</a></label>
+                    <div class="input-with-icon">
+                        <i class='bx bx-key'></i>
+                        <input type="password" id="apiKeyInput" value="SvxEvzAZRzaUhTar5eVkWjtP"
+                            placeholder="Paste your key here...">
+                    </div>
+                    <p class="hint-text">Required for automatic background removal.</p>
+                </div>
+
+                <div class="control-group">
+                    <label>Studio Background</label>
+                    <div class="color-picker-grid">
+                        <div class="color-btn active" data-color="#ffffff"
+                            style="background:#ffffff; border: 1px solid #ddd;"></div>
+                        <div class="color-btn" data-color="#005b9f" style="background:#005b9f;"></div>
+                        <div class="color-btn" data-color="#e2202c" style="background:#e2202c;"></div>
+                        <div class="color-btn" data-color="#dddddd" style="background:#dddddd;"></div>
+                        <div class="color-btn picker-wrapper">
+                            <input type="color" id="customColorPicker" title="Custom color">
+                            <i class='bx bx-palette'></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label><span>Brightness</span> <span class="val-display" id="briVal">100%</span></label>
+                    <input type="range" id="brightnessSlider" min="50" max="150" value="100" class="custom-slider">
+                </div>
+
+                <div class="control-group">
+                    <label><span>Contrast</span> <span class="val-display" id="conVal">100%</span></label>
+                    <input type="range" id="contrastSlider" min="50" max="150" value="100" class="custom-slider">
+                </div>
+
+                <div class="control-group section-divider">
+                    <label>Manual Alignment (Crop)</label>
+                    <div class="alignment-tools">
+                        <label class="label-sm">Zoom <span id="zoomVal" class="val-display">1.0x</span></label>
+                        <input type="range" id="zoomSlider" min="0.5" max="3" step="0.05" value="1.1"
+                            class="custom-slider">
+
+                        <label class="label-sm">Position X <span id="offXVal" class="val-display">0</span></label>
+                        <input type="range" id="offXSlider" min="-200" max="200" value="0" class="custom-slider">
+
+                        <label class="label-sm">Position Y <span id="offYVal" class="val-display">0</span></label>
+                        <input type="range" id="offYSlider" min="-200" max="200" value="0" class="custom-slider">
+                    </div>
+                </div>
+
+
+                <div class="control-group">
+                    <label>Face Retouch <span class="badge-pro">PRO</span></label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="retouchToggle" checked>
+                        <span class="slider round"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label><span>Print Sheet (A4)</span></label>
+                    <div class="print-grid">
+                        <button class="btn btn-secondary btn-sm" id="print1Btn">1 Copy</button>
+                        <button class="btn btn-secondary btn-sm" id="print8Btn">8 Copies</button>
+                        <button class="btn btn-secondary btn-sm" id="print16Btn">16 Copies</button>
+                        <button class="btn btn-secondary btn-sm" id="print32Btn">32 Copies</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary full-width download-btn" id="downloadBtn">
+                        <span>Download JPEG</span>
+                        <i class='bx bxs-cloud-download'></i>
+                    </button>
+                    <button class="btn btn-secondary full-width" id="shareBtn">
+                        <i class='bx bxl-whatsapp'></i> Share via WhatsApp
+                    </button>
+                </div>
+                ROX
+            </div>
+        </section>
+    </main>
+
+    <!-- Crop Modal (Gallery Style) -->
+    <div id="cropModal" class="modal-overlay hidden">
+        <div class="modal-content crop-modal-content">
+            <div class="modal-header">
+                <h3><i class='bx bx-crop'></i> Crop Your Photo</h3>
+                <button class="btn-icon" id="closeCropBtn"><i class='bx bx-x'></i></button>
+            </div>
+            <p class="modal-hint">Adjust the box to frame your face (Fixed 35:45 ratio)</p>
+            <div class="crop-area">
+                <img id="cropImage" src="">
+            </div>
+            <div class="modal-actions-bar">
+                <button class="btn btn-secondary" id="cancelCropBtn">Cancel</button>
+                <button class="btn btn-primary" id="doneCropBtn">Apply Crop</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>
