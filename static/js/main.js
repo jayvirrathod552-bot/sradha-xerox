@@ -522,25 +522,63 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Drawing logic
             let cols, rows;
-            if (count === 8) { cols = 2; rows = 4; }
-            else if (count === 16) { cols = 4; rows = 4; }
-            else { cols = 4; rows = 8; } // 32
+            let topPadding = 0;
+            let bottomPadding = 0;
+            let currentPhotoW = photoW;
+            let currentPhotoH = photoH;
 
-            const marginX = (a4W - (cols * photoW)) / (cols + 1);
-            const marginY = (a4H - (rows * photoH)) / (rows + 1);
+            if (count === 8) { 
+                cols = 2; rows = 4; 
+            }
+            else if (count === 16) { 
+                cols = 4; rows = 4; 
+            }
+            else { 
+                // 32 copies - Professional Layout with 1cm (118px) margins
+                cols = 4; rows = 8; 
+                const targetMargin = 118; // ~1cm at 300 DPI
+                topPadding = targetMargin;
+                bottomPadding = targetMargin;
+                
+                // For 32 copies, we want targetMargin between rows too
+                // Total H = topPadding + bottomPadding + (rows * H) + (rows-1) * targetMargin
+                // 3508 = 2 * 118 + 8 * H + 7 * 118 => 3508 = 9 * 118 + 8 * H
+                // 8 * H = 3508 - 1062 = 2446 => H = 305px
+                
+                const availableHForPhotos = a4H - (topPadding + bottomPadding + (rows - 1) * targetMargin);
+                const scale = availableHForPhotos / (rows * photoH);
+                currentPhotoW = photoW * scale;
+                currentPhotoH = photoH * scale;
+
+                // Update horizontal margin too for consistency
+                // marginX = 118; // Let's keep it consistent if possible
+            }
+
+            const marginX = (a4W - (cols * currentPhotoW)) / (cols + 1);
+            let marginY;
+            if (count === 32) {
+                marginY = 118; // Fixed 1cm gap between rows
+            } else {
+                marginY = (a4H - (rows * currentPhotoH)) / (rows + 1);
+            }
             
             let drawn = 0;
             for (let r = 0; r < rows; r++) {
                 for (let c = 0; c < cols; c++) {
                     if (drawn >= count) break;
-                    const x = marginX + c * (photoW + marginX);
-                    const y = marginY + r * (photoH + marginY);
+                    const x = marginX + c * (currentPhotoW + marginX);
+                    let y;
+                    if (count === 32) {
+                        y = topPadding + r * (currentPhotoH + marginY);
+                    } else {
+                        y = marginY + r * (currentPhotoH + marginY);
+                    }
                     
                     // Draw a thin grey border for cutting guide
                     aCtx.strokeStyle = '#eeeeee';
-                    aCtx.strokeRect(x - 1, y - 1, photoW + 2, photoH + 2);
+                    aCtx.strokeRect(x - 1, y - 1, currentPhotoW + 2, currentPhotoH + 2);
                     
-                    aCtx.drawImage(singlePhotoCanvas, x, y);
+                    aCtx.drawImage(singlePhotoCanvas, 0, 0, photoW, photoH, x, y, currentPhotoW, currentPhotoH);
                     drawn++;
                 }
             }

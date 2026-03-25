@@ -4,7 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRADHA XEROX</title>
+    <title>AI Passport Photo Generator | SRADHA XEROX - Professional Passport Photos Online</title>
+    <meta name="description" content="Generate professional, AI-powered passport photos online at SRADHA XEROX. Auto-crop, remove background, and create A4 print sheets (8, 16, 32 copies) instantly.">
+    <meta name="keywords" content="passport photo generator, online passport photo, AI background removal, sradha xerox, print passport photos, 32 photo copy layout, digital passport photo">
+    <meta name="author" content="JAYVIR RATHOD">
+    <link rel="canonical" href="https://github.com/jayvirrathod552-bot/sradha-xerox">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/jayvirrathod552-bot/sradha-xerox">
+    <meta property="og:title" content="AI Passport Photo Generator | SRADHA XEROX">
+    <meta property="og:description" content="Generate professional passport photos online. 8, 16, 32 copy layouts on A4 paper with AI background removal.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/jayvirrathod552-bot/sradha-xerox/main/static/images/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://github.com/jayvirrathod552-bot/sradha-xerox">
+    <meta property="twitter:title" content="AI Passport Photo Generator | SRADHA XEROX">
+    <meta property="twitter:description" content="Generate professional passport photos online. 8, 16, 32 copy layouts on A4 paper with AI background removal.">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Boxicons for modern icons -->
@@ -26,7 +44,7 @@
             <span class="logo-text">SRADHA XEROX</span>
         </div>
         <div class="header-actions">
-            <button class="theme-toggle" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+            <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
                 <i class='bx bx-sun'></i>
             </button>
             <button class="btn btn-primary premium-badge">
@@ -84,7 +102,7 @@
             <!-- Canvas / Preview Area -->
             <div class="preview-panel glass-panel">
                 <div class="nav-controls">
-                    <button class="btn btn-icon" id="backBtn" title="Back to Upload"><i
+                    <button class="btn btn-icon" id="backBtn" aria-label="Back to Upload" title="Back to Upload"><i
                             class='bx bx-left-arrow-alt'></i></button>
                     <h3 class="panel-title">Real-time Preview</h3>
                     <div class="resolution-badge">300 DPI <i class='bx bx-check'></i></div>
@@ -209,6 +227,10 @@
             </div>
         </section>
     </main>
+
+    <footer class="app-footer">
+        <p>POWER BY <span class="author-name">JAYVIR RATHOD</span></p>
+    </footer>
 
     <!-- Crop Modal (Gallery Style) -->
     <div id="cropModal" class="modal-overlay hidden">

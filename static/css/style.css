@@ -715,24 +715,82 @@ input:checked + .slider.round:before {
     opacity: 1;
 }
 
-/* Responsive */
+/* Responsive Improvements */
 @media (max-width: 900px) {
     .editor-section {
         flex-direction: column;
+        gap: 1.5rem;
+        padding: 0.5rem;
     }
     
     .controls-panel {
         width: 100%;
         max-height: none;
+        padding: 1rem;
     }
     
+    .preview-panel {
+        padding: 1rem;
+    }
+
     .canvas-wrapper {
-        width: 280px;
-        height: 360px;
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        aspect-ratio: 35/45;
     }
     
     .app-header {
         padding: 1rem;
+    }
+
+    .upload-section {
+        padding: 1.5rem;
+    }
+
+    .upload-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .drag-drop-zone {
+        padding: 2.5rem 1rem;
+    }
+
+    .features-list {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .print-grid {
+        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    .color-picker-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .glass-loader {
+        padding: 1.5rem;
+    }
+
+    .scanner-container {
+        width: 100px;
+        height: 140px;
     }
 }
 /* New UI Elements */
@@ -796,6 +854,24 @@ input:checked + .slider.round:before {
 
 .link-small:hover {
     text-decoration: underline;
+}
+
+/* Footer Styles */
+.app-footer {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    opacity: 0.6;
+    background: transparent;
+    z-index: 10;
+}
+
+.author-name {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent-glow);
 }
 
 .hint-text {
